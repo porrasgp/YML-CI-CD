@@ -1,2 +1,6 @@
-# YML-CI-CD
- 📁 ci-cd/: Contains YAML configurations for CI/CD pipelines. Automates build, test, and deployment processes via GitHub Actions, ensuring continuous integration and delivery. 🚀 Keeps your project running smoothly with automated testing 🧪 and fast deployments ⚙️ across environments.
+📁 ci-cd/
+
+Contiene configuraciones para integración continua (CI) y entrega continua (CD) automatizadas.
+Incluye scripts YAML para gestionar pipelines de compilación, pruebas y despliegue.🚀
+Facilita la automatización de pruebas y despliegues en múltiples entornos.⚙️
+Ejecuta acciones de GitHub, como pruebas unitarias y despliegues.🧪
