@@ -25,7 +25,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pandas  # Add any other libraries you use
+          pip install pandas  pyspark # Add any other libraries you use
 
   DataExtraction:
     runs-on: ubuntu-latest
