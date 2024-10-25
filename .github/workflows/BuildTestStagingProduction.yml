@@ -35,7 +35,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Run data extraction
-        run: python Trigger.py  # Aquí corres tu Trigger.py
+        run: python App/Data/Raw Data/Trigger.py  # Aquí corres tu Trigger.py
 
       - name: Upload CSV as artifact
         uses: actions/upload-artifact@v3
