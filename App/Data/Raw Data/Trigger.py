@@ -12,6 +12,9 @@ if __name__ == '__main__':
     # Descargar el CSV una sola vez
     df = pd.read_csv('https://raw.githubusercontent.com/guru99-edu/R-Programming/master/adult_data.csv')
     
+    # Guardar el CSV para usarlo en futuros jobs
+    df.to_csv('adult_data.csv', index=False)
+    
     # Definir las clases de trabajo
     workclasses = ['Private', 'Local-gov', 'Self-emp-inc', 'Federal-gov']
     
