@@ -35,16 +35,16 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Create Data Directory
-        run: mkdir -p App/Data/Raw Data
+        run: mkdir -p App/Data/Raw-Data/
 
       - name: Run data extraction
-        run: python App/Data/Raw Data/Trigger.py  # Make sure your Trigger.py script path is correct
+        run: python App/Data/Raw-Data/Trigger.py  # Make sure your Trigger.py script path is correct
 
       - name: Upload CSV as artifact
         uses: actions/upload-artifact@v3
         with:
           name: adult_data_csv  # Artifact name
-          path: App/Data/Raw Data/adult_data.csv  # Corrected path where the CSV is saved
+          path: App/Data/ELT/adult_data.csv  # Corrected path where the CSV is saved
 
   test:
     runs-on: ubuntu-latest
