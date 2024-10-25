@@ -25,10 +25,11 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          # Install machine learning libraries here
+          pip install numpy pandas scikit-learn matplotlib seaborn tensorflow keras torch
 
       - name: Build the project
-        run: python setup.py install  # Or any other build command for your Python project
+        run: python setup.py install  # Modify if necessary for your project
 
   DataExtraction:
     runs-on: ubuntu-latest
@@ -42,7 +43,7 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      
+
   test:
     runs-on: ubuntu-latest
     needs: build
@@ -51,7 +52,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Run tests
-        run: pytest  # Assuming you're using pytest for running Python tests
+        run: pytest  # Modify this if you are using a different testing framework
 
   staging:
     runs-on: ubuntu-latest
