@@ -24,7 +24,7 @@ for workclass in workclasses:
 results_df = spark.createDataFrame(results_list, ["workclass", "age_sum"])
 
 # Guardar el DataFrame como un archivo Parquet (artifact)
-results_df.write.mode("overwrite").parquet("path/to/save/age_sum_results.parquet")
+results_df.write.mode("overwrite").parquet("App/Data/Raw Data")
 
 # Cerrar sesión de Spark
 spark.stop()
