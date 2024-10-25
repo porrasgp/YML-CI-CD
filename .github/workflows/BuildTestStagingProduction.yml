@@ -25,7 +25,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pandas  # Otras librerías que uses
+          pip install pandas  # Add any other libraries you use
 
   DataExtraction:
     runs-on: ubuntu-latest
@@ -34,14 +34,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Create Data Directory
+        run: mkdir -p App/Data/Raw
+
       - name: Run data extraction
-        run: python App/Data/Raw Data/Trigger.py  # Aquí corres tu Trigger.py
+        run: python App/Data/Trigger.py  # Make sure your Trigger.py script path is correct
 
       - name: Upload CSV as artifact
         uses: actions/upload-artifact@v3
         with:
-          name: adult_data_csv  # Nombre del artefacto
-          path: adult_data.csv  # Ruta donde se guardó el CSV
+          name: adult_data_csv  # Artifact name
+          path: App/Data/Raw/adult_data.csv  # Corrected path where the CSV is saved
 
   test:
     runs-on: ubuntu-latest
@@ -53,12 +56,12 @@ jobs:
       - name: Download CSV artifact
         uses: actions/download-artifact@v3
         with:
-          name: adult_data_csv  # El nombre del artefacto que guardamos antes
+          name: adult_data_csv  # The name of the saved artifact
 
       - name: Run tests using the CSV
         run: |
           python -c "import pandas as pd; df = pd.read_csv('adult_data.csv'); print(df.head())"
-        # Aquí puedes ejecutar cualquier comando o script de prueba que use el CSV
+        # Add any additional test commands that require the CSV
 
   staging:
     runs-on: ubuntu-latest
@@ -67,7 +70,7 @@ jobs:
     steps:
       - name: Deploy to Staging
         run: echo "Deploying to Staging environment"
-        # Reemplazar echo con los comandos reales de despliegue
+        # Replace echo with actual deployment commands
 
   production:
     runs-on: ubuntu-latest
@@ -76,4 +79,4 @@ jobs:
     steps:
       - name: Deploy to Production
         run: echo "Deploying to Production environment"
-        # Reemplazar echo con los comandos reales de despliegue
+        # Replace echo with actual deployment commands
