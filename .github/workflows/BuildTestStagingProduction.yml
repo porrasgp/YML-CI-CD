@@ -28,9 +28,6 @@ jobs:
           # Install machine learning libraries here
           pip install numpy pandas scikit-learn matplotlib seaborn tensorflow keras torch
 
-      - name: Build the project
-        run: python setup.py install  # Modify if necessary for your project
-
   DataExtraction:
     runs-on: ubuntu-latest
     needs: build
