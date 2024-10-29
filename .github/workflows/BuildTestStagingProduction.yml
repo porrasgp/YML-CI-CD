@@ -15,65 +15,50 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.8'
-
-      - name: Install Java (required for PySpark)
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y openjdk-11-jdk
-          java -version
+          python-version: '3.x'
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pandas pyspark
-          pip list  # Confirma que pyspark esté instalado correctamente
+          pip install pandas pyspark requests  # Agrega cualquier otra librería necesaria
 
-      - name: Verify pyspark installation
-        run: python -c "import pyspark; print(pyspark.__version__)"
-        
   DataExtraction:
     runs-on: ubuntu-latest
     needs: build
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Reinstall dependencies (if needed)
-        run: |
-          python -m pip install --upgrade pip
-          pip install pyspark
+        uses: actions/checkout@v2
 
       - name: Run data extraction
-        run: python App/Data/Raw-Data/Trigger.py  # Confirmar ruta correcta
+        run: python App/Data/Raw-Data/Trigger.py  # Ejecuta el script para generar el CSV
 
       - name: Upload CSV as artifact
         uses: actions/upload-artifact@v3
         with:
-          name: adult_data_csv
-          path: App/Data/Raw-Data/adult_data.csv  # Verifica ruta del CSV
+          name: adult_data_csv  # Nombre del artefacto
+          path: App/Data/Raw-Data/adult_data.csv  # Asegúrate de que esta sea la ruta correcta
 
   test:
     runs-on: ubuntu-latest
     needs: DataExtraction
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
       - name: Download CSV artifact
         uses: actions/download-artifact@v3
         with:
           name: adult_data_csv
-          path: App/Data/Raw-Data/adult_data.csv  # Verifica ruta del CSV
+          path: App/Data/Raw-Data/  # Asegúrate de que esta ruta coincida con donde se necesita el archivo
 
       - name: Run tests using the CSV
         run: |
-          python -c "import pandas as pd; df = pd.read_csv('adult_data.csv'); print(df.head())"
+          python -c "import pandas as pd; df = pd.read_csv('App/Data/Raw-Data/adult_data.csv'); print(df.head())"
 
   staging:
     runs-on: ubuntu-latest
