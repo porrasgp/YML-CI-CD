@@ -15,12 +15,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
+          python-version: '3.8'
 
       - name: Install Java (required for PySpark)
         run: |
@@ -31,8 +31,8 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pandas pyspark  # Asegúrate de instalar pyspark
-          pip list  # Verifica que pyspark esté instalado
+          pip install pandas pyspark
+          pip list  # Confirma que pyspark esté instalado correctamente
 
       - name: Verify pyspark installation
         run: python -c "import pyspark; print(pyspark.__version__)"
@@ -42,23 +42,28 @@ jobs:
     needs: build
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+
+      - name: Reinstall dependencies (if needed)
+        run: |
+          python -m pip install --upgrade pip
+          pip install pandas pyspark
 
       - name: Run data extraction
-        run: python App/Data/Raw-Data/Trigger.py  # Confirma que la ruta es correcta
+        run: python App/Data/Raw-Data/Trigger.py  # Confirmar ruta correcta
 
       - name: Upload CSV as artifact
         uses: actions/upload-artifact@v3
         with:
           name: adult_data_csv
-          path: App/Data/Raw-Data/adult_data.csv  # Confirma que el archivo CSV esté en esta ruta
+          path: App/Data/Raw-Data/adult_data.csv  # Verifica ruta del CSV
 
   test:
     runs-on: ubuntu-latest
     needs: DataExtraction
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Download CSV artifact
         uses: actions/download-artifact@v3
