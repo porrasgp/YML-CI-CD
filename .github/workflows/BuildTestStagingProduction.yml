@@ -22,10 +22,18 @@ jobs:
         with:
           python-version: '3.x'
 
+      - name: Install Java (required for PySpark)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openjdk-11-jdk
+          java -version
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pandas  pyspark # Add any other libraries you use
+          pip install pandas pyspark  # Asegúrate de instalar pyspark
+          pip list  # Verifica que pyspark esté instalado
+
       - name: Verify pyspark installation
         run: python -c "import pyspark; print(pyspark.__version__)"
         
@@ -36,17 +44,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Create Data Directory
-        run: mkdir -p App/Data/Raw-Data/
-
       - name: Run data extraction
-        run: python App/Data/Raw-Data/Trigger.py  # Make sure your Trigger.py script path is correct
+        run: python App/Data/Raw-Data/Trigger.py  # Confirma que la ruta es correcta
 
       - name: Upload CSV as artifact
         uses: actions/upload-artifact@v3
         with:
-          name: adult_data_csv  # Artifact name
-          path: App/Data/ELT/adult_data.csv  # Corrected path where the CSV is saved
+          name: adult_data_csv
+          path: App/Data/Raw-Data/adult_data.csv  # Confirma que el archivo CSV esté en esta ruta
 
   test:
     runs-on: ubuntu-latest
@@ -58,12 +63,11 @@ jobs:
       - name: Download CSV artifact
         uses: actions/download-artifact@v3
         with:
-          name: adult_data_csv  # The name of the saved artifact
+          name: adult_data_csv
 
       - name: Run tests using the CSV
         run: |
           python -c "import pandas as pd; df = pd.read_csv('adult_data.csv'); print(df.head())"
-        # Add any additional test commands that require the CSV
 
   staging:
     runs-on: ubuntu-latest
@@ -72,7 +76,6 @@ jobs:
     steps:
       - name: Deploy to Staging
         run: echo "Deploying to Staging environment"
-        # Replace echo with actual deployment commands
 
   production:
     runs-on: ubuntu-latest
@@ -81,4 +84,3 @@ jobs:
     steps:
       - name: Deploy to Production
         run: echo "Deploying to Production environment"
-        # Replace echo with actual deployment commands
