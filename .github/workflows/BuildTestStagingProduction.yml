@@ -69,6 +69,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: adult_data_csv
+          path: App/Data/Raw-Data/adult_data.csv  # Verifica ruta del CSV
 
       - name: Run tests using the CSV
         run: |
