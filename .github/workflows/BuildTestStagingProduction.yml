@@ -54,7 +54,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: adult_data_csv
-          path: App/Data/Raw-Data/  # Asegúrate de que esta ruta coincida con donde se necesita el archivo
+          path: App/Data/Raw-Data/adult_data.csv  # Asegúrate de que esta ruta coincida con donde se necesita el archivo
 
       - name: Run tests using the CSV
         run: |
