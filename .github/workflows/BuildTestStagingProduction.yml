@@ -20,7 +20,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.8'
+          python-version: '3.x'
 
       - name: Install Java (required for PySpark)
         run: |
@@ -62,8 +62,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Download CSV artifact
-        uses: actions/download-artifact@v3
+      - name: Upload CSV as artifact
+        uses: actions/upload-artifact@v3
         with:
           name: adult_data_csv
           path: App/Data/Raw-Data/adult_data.csv  # Verifica ruta del CSV
