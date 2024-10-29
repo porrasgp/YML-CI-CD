@@ -75,7 +75,7 @@ jobs:
 
       - name: Run tests using the CSV
         run: |
-          python -c "import pandas as pd; df = pd.read_csv('adult_data.csv'); print(df.head())"
+          python -c "import pandas as pd; df = pd.read_csv('App/Data/Raw-Data/adult_data.csv'); print(df.head())"
   staging:
     runs-on: ubuntu-latest
     needs: Test
