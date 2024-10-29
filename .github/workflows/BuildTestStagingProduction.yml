@@ -11,7 +11,7 @@ on:
       - staging
 
 jobs:
-  build:
+  Build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -37,7 +37,7 @@ jobs:
         
   DataExtraction:
     runs-on: ubuntu-latest
-    needs: build
+    needs: Build
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -55,9 +55,9 @@ jobs:
           name: adult_data_csv
           path: App/Data/Raw-Data/adult_data.csv  # Verifica ruta del CSV
 
-  test:
+  Test:
     runs-on: ubuntu-latest
-    needs: DataExtraction
+    needs: Build
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -78,7 +78,7 @@ jobs:
           python -c "import pandas as pd; df = pd.read_csv('adult_data.csv'); print(df.head())"
   staging:
     runs-on: ubuntu-latest
-    needs: test
+    needs: Test
     if: github.ref == 'refs/heads/staging'
     steps:
       - name: Deploy to Staging
