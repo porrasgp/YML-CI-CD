@@ -1,4 +1,5 @@
 from pyspark.sql import SparkSession
+from pyspark.sql.functions import sum
 import requests
 
 # Inicializar sesión de Spark
@@ -21,7 +22,7 @@ workclasses = ['Private', 'Local-gov', 'Self-emp-inc', 'Federal-gov']
 # Crear una función para calcular la suma de edades por clase de trabajo
 def calculate_age_sum(workclass):
     filtered_df = df.filter(df.workclass == workclass)
-    age_sum = filtered_df.select(spark_sum("age")).collect()[0][0]
+    age_sum = filtered_df.select(sum("age")).collect()[0][0]
     return workclass, age_sum
 
 # Ejecutar la función para cada clase de trabajo y mostrar resultados
